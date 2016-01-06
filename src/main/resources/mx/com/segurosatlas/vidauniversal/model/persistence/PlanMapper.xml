@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mx.com.segurosatlas.vidauniversal.model.persistence.PlanMapper">
+
+	<cache />
+
+	<insert id="save">
+		insert into s00_cat_planes(cve_linea, cve_plan, descripcion, descripcionc, tasa_financ, 
+				tabla_mortal, tabla_edades_eq)
+    		values(#{cveLinea}, #{cvePlan}, #{descripcion}, #{descripcionC}, #{tasaFinanc}, #{tablaMortal}, #{tablaEdadesEq});
+	</insert>
+
+	<delete id="delete">
+		delete from s00_cat_planes where cve_plan = #{cvePlan}
+	</delete>
+
+	<select id="findByID" resultType="Plan">
+		select 
+			cve_linea as cveLinea,
+			cve_plan as cvePlan, 
+			descripcion as descripcion,
+			descripcionc as descripcionC, 
+			tasa_financ as tasaFinanc, 
+			tabla_mortal as tablaMortal,
+		tabla_edades_eq as tablaEdadesEq
+		from s00_cat_planes
+		where cve_plan = #{cvePlan}
+	</select>
+
+	<select id="findAll" resultType="Plan">
+		select 
+			cve_linea as cveLinea,
+			cve_plan as cvePlan, 
+			descripcion as descripcion,
+			descripcionc as descripcionC, 
+			tasa_financ as tasaFinanc, 
+			tabla_mortal as tablaMortal,
+		tabla_edades_eq as tablaEdadesEq
+		from s00_cat_planes
+	</select>
+
+	<select id="findPlanByCveLinea" resultType="Plan">
+		select 
+			cve_linea as cveLinea,
+			cve_plan as cvePlan, 
+			descripcion as descripcion,
+			descripcionc as descripcionC, 
+			tasa_financ as tasaFinanc, 
+			tabla_mortal as tablaMortal,
+		tabla_edades_eq as tablaEdadesEq
+		from s00_cat_planes
+		where cve_linea = #{cveLinea}
+	</select>
+
+</mapper>
