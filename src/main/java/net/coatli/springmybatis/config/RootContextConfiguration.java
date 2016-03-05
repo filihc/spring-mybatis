@@ -13,24 +13,17 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * Definition of the beans within Spring application context.
+ */
 @Configuration
 @EnableTransactionManagement
-@MapperScan({ "mx.com.segurosatlas.vidauniversal.model.persistence" })
-@PropertySource(value = { "classpath:application.properties" })
+@MapperScan(basePackages = {"net.coatli.springmybatis.persistence"})
+@PropertySource(value = {"classpath:/META-INF/root-context.properties"})
 public class RootContextConfiguration {
 
   @Autowired
   private Environment environment;
-
-  @Bean
-  public SqlSessionFactoryBean sessionFactory() {
-    final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-
-    sessionFactory.setDataSource(dataSource());
-    sessionFactory.setTypeAliasesPackage("net.coatli.springmybatis.domain");
-
-    return sessionFactory;
-  }
 
   @Bean
   public DataSource dataSource() {
@@ -45,8 +38,18 @@ public class RootContextConfiguration {
   }
 
   @Bean
-  @Autowired
+  public SqlSessionFactoryBean sessionFactory() {
+    final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+
+    sessionFactory.setDataSource(dataSource());
+    sessionFactory.setTypeAliasesPackage("net.coatli.springmybatis.domain");
+
+    return sessionFactory;
+  }
+
+  @Bean
   public DataSourceTransactionManager transactionManager() {
      return  new DataSourceTransactionManager(dataSource());
   }
+
 }
