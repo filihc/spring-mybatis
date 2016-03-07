@@ -5,29 +5,18 @@ import java.util.UUID;
 public class Person {
 
   private final String key;
-  private String firstName;
-  private String lastName;
+  private final String name;
   private Integer age;
   private Address address;
 
-  public Person() {
+  public Person(final String name) {
     this.key = UUID.randomUUID().toString();
+    this.name = name;
   }
 
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public void setFirstName(final String firstName) {
-    this.firstName = firstName;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public void setLastName(final String lastName) {
-    this.lastName = lastName;
+  public Person(final String key, final String name) {
+	this.key = key;
+	this.name = name;
   }
 
   public Integer getAge() {
@@ -50,23 +39,7 @@ public class Person {
     return key;
   }
 
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.JSON_STYLE).appendSuper(super.toString()).append("key", key).append("firstName", firstName).append("lastName", lastName).append("age", age).append("address", address).toString();
+  public String getName() {
+    return name;
   }
-
-  @Override
-  public boolean equals(final Object other) {
-    if (!(other instanceof Person)) {
-      return false;
-    }
-    final Person castOther = (Person) other;
-    return new EqualsBuilder().append(key, castOther.key).append(firstName, castOther.firstName).append(lastName, castOther.lastName).append(age, castOther.age).append(address, castOther.address).isEquals();
-  }
-
-  @Override
-  public int hashCode() {
-    return new HashCodeBuilder().append(key).append(firstName).append(lastName).append(age).append(address).toHashCode();
-  }
-
 }
