@@ -1,5 +1,6 @@
 package net.coatli.springmybatis.persistence;
 
-public interface AddressMapper {
+import net.coatli.springmybatis.domain.Address;
 
+public interface AddressMapper extends CrudMapper<Address, Integer> {
 }

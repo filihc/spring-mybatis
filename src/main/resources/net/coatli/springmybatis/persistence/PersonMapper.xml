@@ -17,15 +17,19 @@
     (
       id,
       name,
-      age,
-      fk_address
+      age
+      <if test="address != null">
+      ,fk_address
+      </if>
     )
     VALUES
     (
-      #{key,          mode=IN, javaType=String,  jdbcType=VARCHAR},
-      #{name,         mode=IN, javaType=String,  jdbcType=VARCHAR},
-      #{age,          mode=IN, javaType=Integer, jdbcType=INTEGER},
-      #{fk_address,   mode=IN, javaType=Integer, jdbcType=INTEGER}
+      #{key,           mode=IN, javaType=String,  jdbcType=VARCHAR},
+      #{name,          mode=IN, javaType=String,  jdbcType=VARCHAR},
+      #{age,           mode=IN, javaType=Integer, jdbcType=INTEGER}
+      <if test="address != null">
+      ,#{address.key,   mode=IN, javaType=Integer, jdbcType=INTEGER}
+      </if>
     )
   </insert>
 
@@ -46,11 +50,11 @@
     UPDATE
       person
     SET
-      <if test="street != null">
-      street = #{street,   mode=IN, javaType=String,  jdbcType=VARCHAR},
+      <if test="name != null">
+      name = #{name,   mode=IN, javaType=String,  jdbcType=VARCHAR},
       </if>
       <if test="number != null">
-      number = #{number,   mode=IN, javaType=Integer, jdbcType=INTEGER}
+      age = #{age,   mode=IN, javaType=Integer, jdbcType=INTEGER}
       </if>
     WHERE
       id = #{key, mode=IN, javaType=Integer, jdbcType=INTEGER}
