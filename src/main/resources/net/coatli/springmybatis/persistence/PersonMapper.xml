@@ -8,6 +8,8 @@
     <result property="key"       javaType="string"     column="id"        jdbcType="VARCHAR" />
     <result property="name"      javaType="string"     column="name"      jdbcType="VARCHAR" />
     <result property="age"       javaType="integer"    column="age"       jdbcType="INTEGER" />
+    <association property="address" resultMap="net.coatli.springmybatis.persistence.AddressMapper.addressResultMap">
+    </association>
   </resultMap>
 
   <insert id="create"
@@ -34,6 +36,7 @@
   </insert>
 
   <select id="read"
+          parameterType="string"
           resultMap="personResultMap">
     SELECT
       id,
@@ -43,6 +46,22 @@
       person
     WHERE
       id = #{key, mode=IN, javaType=String, jdbcType=VARCHAR}
+  </select>
+  
+  <select id="readWithAddress"
+          parameterType="string"
+          resultMap="personResultMap">
+    SELECT
+      p.id,
+      p.name,
+      p.age,
+      a.key,
+      a.street,
+      a.number
+    FROM
+      person p INNER JOIN address a
+    WHERE
+      p.id = #{key, mode=IN, javaType=String, jdbcType=VARCHAR}
   </select>
   
   <update id="update"
