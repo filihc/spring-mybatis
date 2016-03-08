@@ -4,3 +4,5 @@
 .settings/
 .svn
 *.class
+*.swp
+*.orig

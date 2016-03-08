@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.coatli.springmybatis.persistence.AddressMapper">
+
+  <resultMap id="addressResultMap"
+             type="Address">
+    <result property="key"       javaType="integer"    column="id"        jdbcType="INTEGER" />
+    <result property="street"    javaType="string"     column="street"    jdbcType="VARCHAR" />
+    <result property="number"    javaType="integer"    column="number"    jdbcType="INTEGER" />
+  </resultMap>
+
+  <insert id="create"
+          parameterType="Address">
+    INSERT INTO
+      address
+    (
+      id,
+      street,
+      number
+    )
+    VALUES
+    (
+      #{key,      mode=IN, javaType=Integer, jdbcType=INTEGER},
+      #{street,   mode=IN, javaType=String,  jdbcType=VARCHAR},
+      #{number,   mode=IN, javaType=Integer, jdbcType=INTEGER}
+    )
+  </insert>
+
+  <select id="read"
+          resultMap="addressResultMap">
+    SELECT
+      id,
+      street,
+      number
+    FROM
+      address
+    WHERE
+      id = #{key, mode=IN, javaType=Integer, jdbcType=INTEGER}
+  </select>
+  
+  <update id="update"
+          parameterType="Address">
+    UPDATE
+      address
+    SET
+      <if test="street != null">
+      street = #{street,   mode=IN, javaType=String,  jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+      number = #{number,   mode=IN, javaType=Integer, jdbcType=INTEGER}
+      </if>
+    WHERE
+      id = #{key, mode=IN, javaType=Integer, jdbcType=INTEGER}
+  </update>
+  
+  <delete id="delete"
+          parameterType="Address">
+    DELETE FROM
+      address
+    WHERE
+      id = #{key, mode=IN, javaType=Integer, jdbcType=INTEGER}
+  </delete>
+  
+</mapper>
