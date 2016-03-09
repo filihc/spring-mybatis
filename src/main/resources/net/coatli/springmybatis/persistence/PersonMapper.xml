@@ -75,6 +75,9 @@
       <if test="number != null">
       age = #{age,   mode=IN, javaType=Integer, jdbcType=INTEGER}
       </if>
+      <if test="address != null">
+      fk_address = #{address.key,   mode=IN, javaType=Integer, jdbcType=INTEGER}
+      </if>
     WHERE
       id = #{key, mode=IN, javaType=Integer, jdbcType=INTEGER}
   </update>
