@@ -47,9 +47,24 @@ public class PersonMapperIT {
 
     // then
     if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("person readed: {}", person);
+      LOGGER.debug("without address: {}", person);
     }
     assertTrue(personKey.equals(person.getKey()));
+  }
+
+  @Test
+  public void thatReadWithExistingAddressWorks() {
+    // given
+    final String personKey = "a265fa43-6a13-4823-bec1-cc236489fb30";
+
+    // when
+    final Person person = mapper.read(personKey);
+
+    // then
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("with address: {}", person);
+    }
+    assertTrue(person.getAddress() != null);
   }
 
   @Test
@@ -77,33 +92,4 @@ public class PersonMapperIT {
     assertTrue(rowsDeleted == 1);
   }
 
-  @Test
-  public void thatReadWithAddress4ExistingAddressWorks() {
-    // given
-    final String personKey = "a265fa43-6a13-4823-bec1-cc236489fb30";
-
-    // when
-    final Person person = mapper.readWithAddress(personKey);
-
-    // then
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("with address: {}", person);
-    }
-    assertTrue(person.getAddress() != null);
-  }
-
-  @Test
-  public void thatReadWithAddress4NotExistingAddressWorks() {
-    // given
-    final String personKey = "34d22929-c471-43b4-b36f-fcfbc4dd4c30";
-
-    // when
-    final Person person = mapper.readWithAddress(personKey);
-
-    // then
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("without address: {}", person);
-    }
-    assertTrue(person.getAddress() == null);
-  }
 }

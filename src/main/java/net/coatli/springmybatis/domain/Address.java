@@ -4,12 +4,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Address {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(Address.class);
 
   private final Integer key;
   private String street;
@@ -17,8 +13,6 @@ public class Address {
 
   public Address(final Integer key) {
     this.key = key;
-
-    LOGGER.info("new Address - key: {}", key);
   }
 
   public Integer getKey() {

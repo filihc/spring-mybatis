@@ -6,21 +6,13 @@
   <resultMap id="readResultMap"
              type="Person">
     <constructor>
-      <idArg javaType="string"   column="id"   jdbcType="VARCHAR" />
-      <arg   javaType="string"   column="name"        jdbcType="VARCHAR" />
+      <idArg                 javaType="string"   column="person_id"   jdbcType="VARCHAR" />
+      <arg                   javaType="string"   column="name"        jdbcType="VARCHAR" />
     </constructor>
-    <result property="age"       javaType="integer"   column="age"       jdbcType="INTEGER" />
-  </resultMap>
-  
-  <resultMap id="readWithAddressResultMap"
-             type="Person"
-             extends="readResultMap">
-    <constructor>
-      <idArg javaType="string"   column="person_id"   jdbcType="VARCHAR" />
-      <arg   javaType="string"   column="name"        jdbcType="VARCHAR" />
-    </constructor>
-    <association property="address"
-                 resultMap="net.coatli.springmybatis.persistence.AddressMapper.readResultMap" />
+    <result property="age"   javaType="integer"   column="age"       jdbcType="INTEGER" />
+    <association
+            property="address"
+            resultMap="net.coatli.springmybatis.persistence.AddressMapper.readResultMap" />
   </resultMap>
 
   <insert id="create"
@@ -49,19 +41,6 @@
   <select id="read"
           parameterType="string"
           resultMap="readResultMap">
-    SELECT
-      id,
-      name,
-      age
-    FROM
-      person
-    WHERE
-      id = #{key, mode=IN, javaType=String, jdbcType=VARCHAR}
-  </select>
-  
-  <select id="readWithAddress"
-          parameterType="string"
-          resultMap="readWithAddressResultMap">
     SELECT
       p.id as person_id,
       p.name,
