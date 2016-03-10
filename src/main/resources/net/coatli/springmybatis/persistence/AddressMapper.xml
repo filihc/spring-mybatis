@@ -3,9 +3,12 @@
 
 <mapper namespace="net.coatli.springmybatis.persistence.AddressMapper">
 
-  <resultMap id="addressResultMap"
-             type="Address">
-    <result property="key"       javaType="integer"    column="id"        jdbcType="INTEGER" />
+  <resultMap id="readResultMap"
+             type="Address"
+             autoMapping="false">
+    <constructor>
+      <idArg javaType="integer"  column="id"           jdbcType="INTEGER" />
+    </constructor>
     <result property="street"    javaType="string"     column="street"    jdbcType="VARCHAR" />
     <result property="number"    javaType="integer"    column="number"    jdbcType="INTEGER" />
   </resultMap>
@@ -28,7 +31,8 @@
   </insert>
 
   <select id="read"
-          resultMap="addressResultMap">
+          parameterType="string"
+          resultMap="readResultMap">
     SELECT
       id,
       street,
@@ -45,10 +49,10 @@
       address
     SET
       <if test="street != null">
-      street = #{street,   mode=IN, javaType=String,  jdbcType=VARCHAR},
+      street = #{street,   mode=IN, javaType=String,  jdbcType=VARCHAR}
       </if>
       <if test="number != null">
-      number = #{number,   mode=IN, javaType=Integer, jdbcType=INTEGER}
+      ,number = #{number,   mode=IN, javaType=Integer, jdbcType=INTEGER}
       </if>
     WHERE
       id = #{key, mode=IN, javaType=Integer, jdbcType=INTEGER}

@@ -3,13 +3,24 @@
 
 <mapper namespace="net.coatli.springmybatis.persistence.PersonMapper">
 
-  <resultMap id="personResultMap"
+  <resultMap id="readResultMap"
              type="Person">
-    <result property="key"       javaType="string"     column="id"        jdbcType="VARCHAR" />
-    <result property="name"      javaType="string"     column="name"      jdbcType="VARCHAR" />
-    <result property="age"       javaType="integer"    column="age"       jdbcType="INTEGER" />
-    <association property="address" resultMap="net.coatli.springmybatis.persistence.AddressMapper.addressResultMap">
-    </association>
+    <constructor>
+      <idArg javaType="string"   column="id"   jdbcType="VARCHAR" />
+      <arg   javaType="string"   column="name"        jdbcType="VARCHAR" />
+    </constructor>
+    <result property="age"       javaType="integer"   column="age"       jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="readWithAddressResultMap"
+             type="Person"
+             extends="readResultMap">
+    <constructor>
+      <idArg javaType="string"   column="person_id"   jdbcType="VARCHAR" />
+      <arg   javaType="string"   column="name"        jdbcType="VARCHAR" />
+    </constructor>
+    <association property="address"
+                 resultMap="net.coatli.springmybatis.persistence.AddressMapper.readResultMap" />
   </resultMap>
 
   <insert id="create"
@@ -26,10 +37,10 @@
     )
     VALUES
     (
-      #{key,           mode=IN, javaType=String,  jdbcType=VARCHAR},
-      #{name,          mode=IN, javaType=String,  jdbcType=VARCHAR},
-      #{age,           mode=IN, javaType=Integer, jdbcType=INTEGER}
-      <if test="address != null">
+      #{key,     mode=IN, javaType=String,  jdbcType=VARCHAR},
+      #{name,    mode=IN, javaType=String,  jdbcType=VARCHAR},
+      #{age,     mode=IN, javaType=Integer, jdbcType=INTEGER}
+      <if test="address != null and address.key != null">
       ,#{address.key,   mode=IN, javaType=Integer, jdbcType=INTEGER}
       </if>
     )
@@ -37,7 +48,7 @@
 
   <select id="read"
           parameterType="string"
-          resultMap="personResultMap">
+          resultMap="readResultMap">
     SELECT
       id,
       name,
@@ -50,16 +61,16 @@
   
   <select id="readWithAddress"
           parameterType="string"
-          resultMap="personResultMap">
+          resultMap="readWithAddressResultMap">
     SELECT
-      p.id,
+      p.id as person_id,
       p.name,
       p.age,
-      a.key,
+      a.id,
       a.street,
       a.number
     FROM
-      person p INNER JOIN address a
+      person p LEFT JOIN address a ON p.fk_address = a.id
     WHERE
       p.id = #{key, mode=IN, javaType=String, jdbcType=VARCHAR}
   </select>
@@ -70,16 +81,16 @@
       person
     SET
       <if test="name != null">
-      name = #{name,   mode=IN, javaType=String,  jdbcType=VARCHAR},
+      name = #{name,   mode=IN, javaType=String,  jdbcType=VARCHAR}
       </if>
-      <if test="number != null">
-      age = #{age,   mode=IN, javaType=Integer, jdbcType=INTEGER}
+      <if test="age != null">
+      ,age = #{age,   mode=IN, javaType=Integer, jdbcType=INTEGER}
       </if>
       <if test="address != null">
-      fk_address = #{address.key,   mode=IN, javaType=Integer, jdbcType=INTEGER}
+      ,fk_address = #{address.key,   mode=IN, javaType=Integer, jdbcType=INTEGER}
       </if>
     WHERE
-      id = #{key, mode=IN, javaType=Integer, jdbcType=INTEGER}
+      id = #{key, mode=IN, javaType=String, jdbcType=VARCHAR}
   </update>
   
   <delete id="delete"
@@ -87,7 +98,7 @@
     DELETE FROM
       person
     WHERE
-      id = #{key, mode=IN, javaType=Integer, jdbcType=INTEGER}
+      id = #{key, mode=IN, javaType=String, jdbcType=VARCHAR}
   </delete>
   
 </mapper>

@@ -1,14 +1,12 @@
 package net.coatli.springmybatis.persistence;
 
-import java.io.Serializable;
-
 /**
  * Base supertype for CRUD mappers.
  *
  * @param <T>
  * @param <ID>
  */
-public interface CrudMapper<T,ID extends Serializable> {
+public interface CrudMapper<T,ID> {
 
   public int create(T type);
 
