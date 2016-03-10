@@ -14,6 +14,15 @@
             property="address"
             resultMap="net.coatli.springmybatis.persistence.AddressMapper.readResultMap" />
   </resultMap>
+  
+  <sql id="readWithAddressColumns">
+	  p.id as person_id,
+	  p.name,
+	  p.age,
+	  a.id,
+	  a.street,
+	  a.number
+  </sql>
 
   <insert id="create"
           parameterType="Person">
@@ -42,12 +51,7 @@
           parameterType="string"
           resultMap="readResultMap">
     SELECT
-      p.id as person_id,
-      p.name,
-      p.age,
-      a.id,
-      a.street,
-      a.number
+      <include refid="readWithAddressColumns" />
     FROM
       person p LEFT JOIN address a ON p.fk_address = a.id
     WHERE
@@ -79,5 +83,21 @@
     WHERE
       id = #{key, mode=IN, javaType=String, jdbcType=VARCHAR}
   </delete>
+  
+  <select id="readAll"
+          parameterType="Person"
+          resultMap="readResultMap">
+    <bind name="name_pattern" value="'%' + _parameter.getName() + '%'"/>
+    SELECT
+      <include refid="readWithAddressColumns" />
+    FROM
+      person p LEFT JOIN address a ON p.fk_address = a.id
+    <where>
+      name LIKE #{name_pattern}
+     <if test="age != null">
+      AND age = #{age,   mode=IN, javaType=Integer, jdbcType=INTEGER}
+     </if>
+    </where>
+  </select>
   
 </mapper>

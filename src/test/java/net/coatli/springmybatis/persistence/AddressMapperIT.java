@@ -1,7 +1,10 @@
 package net.coatli.springmybatis.persistence;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,6 +72,19 @@ public class AddressMapperIT {
 
     // then
     assertTrue(rowsDeleted == 1);
+  }
+
+  @Test
+  public void thatReadAllWorks() {
+    // given
+    final Address filters = new Address(null);
+    filters.setStreet("ma");
+
+    // when
+    final List<Address> allAddresses = mapper.readAll(filters);
+
+    // then
+    assertFalse(allAddresses.isEmpty());
   }
 
 }

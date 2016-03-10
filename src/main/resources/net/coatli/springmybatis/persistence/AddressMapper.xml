@@ -66,4 +66,22 @@
       id = #{key, mode=IN, javaType=Integer, jdbcType=INTEGER}
   </delete>
   
+  <select id="readAll"
+          parameterType="Address"
+          resultMap="readResultMap">
+    <bind name="street_pattern" value="'%' + _parameter.getStreet() + '%'"/>
+    SELECT
+      id,
+      street,
+      number
+    FROM
+      address
+    <where>
+      street LIKE #{street_pattern}
+     <if test="number != null">
+      AND number = #{number,   mode=IN, javaType=Integer, jdbcType=INTEGER}
+     </if>
+    </where>
+  </select>
+  
 </mapper>

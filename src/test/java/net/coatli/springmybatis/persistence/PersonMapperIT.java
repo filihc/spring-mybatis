@@ -1,6 +1,9 @@
 package net.coatli.springmybatis.persistence;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -90,6 +93,18 @@ public class PersonMapperIT {
 
     // then
     assertTrue(rowsDeleted == 1);
+  }
+
+  @Test
+  public void thatReadAllWorks() {
+    // given
+    final Person filters = new Person(null, "ri");
+
+    // when
+    final List<Person> allPersons = mapper.readAll(filters);
+
+    // then
+    assertFalse(allPersons.isEmpty());
   }
 
 }
