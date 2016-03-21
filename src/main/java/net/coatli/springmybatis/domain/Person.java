@@ -2,6 +2,11 @@ package net.coatli.springmybatis.domain;
 
 import java.util.UUID;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class Person {
 
   private final String key;
@@ -15,8 +20,8 @@ public class Person {
   }
 
   public Person(final String key, final String name) {
-	this.key = key;
-	this.name = name;
+  	this.key = key;
+  	this.name = name;
   }
 
   public Integer getAge() {
@@ -42,4 +47,27 @@ public class Person {
   public String getName() {
     return name;
   }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.JSON_STYLE).appendSuper(super.toString()).append("key", key)
+        .append("name", name).append("age", age).append("address", address).toString();
+  }
+
+  @Override
+  public boolean equals(final Object other) {
+    if (!(other instanceof Person)) {
+      return false;
+    }
+    final Person castOther = (Person) other;
+    return new EqualsBuilder().append(key, castOther.key).append(name, castOther.name).append(age, castOther.age)
+        .append(address, castOther.address).isEquals();
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder().append(key).append(name).append(age).append(address).toHashCode();
+  }
+
+
 }

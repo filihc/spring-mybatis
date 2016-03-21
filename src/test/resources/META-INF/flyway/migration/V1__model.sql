@@ -1,5 +1,3 @@
-CREATE SCHEMA TEST;
-
 CREATE TABLE person (
   id          VARCHAR(36)   NOT NULL,
   name        VARCHAR(50)   NOT NULL,
