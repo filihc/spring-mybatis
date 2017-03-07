@@ -8,7 +8,7 @@
 <listAttribute key="M2_PROPERTIES">
 <listEntry value="it.test=PersonMapperIT#thatReadAllWorks"/>
 </listAttribute>
-<stringAttribute key="M2_RUNTIME" value="MAVEN 3.3.9"/>
+<stringAttribute key="M2_RUNTIME" value="C:\dev\apache-maven-3.3.9"/>
 <booleanAttribute key="M2_SKIP_TESTS" value="false"/>
 <intAttribute key="M2_THREADS" value="1"/>
 <booleanAttribute key="M2_UPDATE_SNAPSHOTS" value="false"/>

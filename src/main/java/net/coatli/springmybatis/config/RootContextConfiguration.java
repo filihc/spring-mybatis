@@ -18,42 +18,38 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@MapperScan(basePackages = {"net.coatli.springmybatis.persistence"})
-@PropertySource(value = {"classpath:/META-INF/spring/root-context.properties"})
+@MapperScan(basePackages = { "net.coatli.springmybatis.persistence" })
+@PropertySource(value = { "classpath:/META-INF/spring/root-context.properties" })
 public class RootContextConfiguration {
 
-  @Autowired
-  private Environment environment;
+	@Autowired
+	private Environment environment;
 
-  @Bean
-  public DataSource dataSource() {
-    final DriverManagerDataSource dataSource = new DriverManagerDataSource();
+	@Bean
+	public DataSource dataSource() {
+		final DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-    dataSource.setDriverClassName(
-        environment.getRequiredProperty("driver"));
-    dataSource.setUrl(
-        environment.getRequiredProperty("url"));
-    dataSource.setUsername(
-        environment.getRequiredProperty("username"));
-    dataSource.setPassword(
-        environment.getRequiredProperty("password"));
+		dataSource.setDriverClassName(environment.getRequiredProperty("driver"));
+		dataSource.setUrl(environment.getRequiredProperty("url"));
+		dataSource.setUsername(environment.getRequiredProperty("user"));
+		dataSource.setPassword(environment.getRequiredProperty("password"));
 
-    return dataSource;
-  }
+		return dataSource;
+	}
 
-  @Bean
-  public SqlSessionFactoryBean sessionFactory() {
-    final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+	@Bean
+	public SqlSessionFactoryBean sessionFactory() {
+		final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 
-    sessionFactory.setDataSource(dataSource());
-    sessionFactory.setTypeAliasesPackage("net.coatli.springmybatis.domain");
+		sessionFactory.setDataSource(dataSource());
+		sessionFactory.setTypeAliasesPackage("net.coatli.springmybatis.domain");
 
-    return sessionFactory;
-  }
+		return sessionFactory;
+	}
 
-  @Bean
-  public DataSourceTransactionManager transactionManager() {
-     return  new DataSourceTransactionManager(dataSource());
-  }
+	@Bean
+	public DataSourceTransactionManager transactionManager() {
+		return new DataSourceTransactionManager(dataSource());
+	}
 
 }
