@@ -11,5 +11,5 @@ A proof of concept for Spring 4 and MyBatis.
 
 For **CLI** use the follow common commands:
 
-- `$ mvn clean verify -D dev`
+- `$ mvn clean verify -P dev`
 - `$ mvn clean verify`
